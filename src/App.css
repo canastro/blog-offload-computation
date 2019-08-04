@@ -1,4 +1,13 @@
-.root {
+.app-root {
+    display: flex;  
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+    height: 100%;
+    width: 100%;
+}
+
+.app-examples {
     display: flex;
     justify-content: space-around;
 }

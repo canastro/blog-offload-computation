@@ -27,6 +27,9 @@ class Sample {
   @observable
   data = new Map<string, Node>();
 
+  @observable
+  isComputing = false;
+
   constructor() {
     this.populate();
   }
@@ -40,6 +43,9 @@ class Sample {
     const node = this.data.get(id)!;
     return node.value;
   }
+
+  @action startComputation() { this.isComputing = true; }
+  @action endComputation() { this.isComputing = false; }
 
   @action
   updateNode(id: string, value: number): void {

@@ -1,0 +1,17 @@
+.animation-root {
+    display: flex;
+    padding: 20px;
+    justify-content: center;
+}
+
+.box {
+    width: 50px;
+    height: 200px;
+    background: black;
+    margin: 5px;
+    will-change: transform;
+}
+
+.box:hover {
+    background: hotpink;
+}

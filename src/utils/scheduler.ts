@@ -1,6 +1,6 @@
 import { performUnitOfWork } from './processor';
 import { IUnitOfWork, RequestIdleCallbackDeadline } from '../common/types';
-import { Node } from './sample';
+import sampleStore, { Node } from './sample';
 
 let workQueue: Node[] = [];
 let nextUnitOfWork: IUnitOfWork | null = null;
@@ -32,6 +32,7 @@ function performWork(deadline: RequestIdleCallbackDeadline): void {
 
   if (!nextUnitOfWork && !workQueue.length) {
       console.timeEnd('SCHEDULED-WORK');
+      sampleStore.endComputation();
       console.log('------- workQueue is empty --------');
   }
 
@@ -43,6 +44,7 @@ function performWork(deadline: RequestIdleCallbackDeadline): void {
 export function scheduleWork(node: Node): void {
   console.log('scheduleWork for the node: ', node);
   console.time('SCHEDULED-WORK');
+  sampleStore.startComputation();
 
   /**
    * Verify if there is already a work being
