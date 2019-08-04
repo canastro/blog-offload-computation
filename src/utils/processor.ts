@@ -23,27 +23,25 @@ function doPointlessComputationsWithBlocking(): number[] {
 }
 
 export function performUnitOfWork(unitOfWork: IUnitOfWork): IUnitOfWork | null {
-  const { cell, triggerCellId } = unitOfWork;
+  const { node, triggerNodeId } = unitOfWork;
 
-  if (cell.formula) {
-    // hardcoded formula matcher
-    const [, parentId, addingValue] = cell.formula.match(/(\w\d+)\+(\d+)/)!;
-    const previousValue = sample.getCellValue(parentId) || 0;
-    const newValue = previousValue + Number(addingValue);
+  if (node.previousId) {
+    const previousValue = sample.getNodeValue(node.previousId) || 0;
+    const newValue = previousValue + 10;
 
-    sample.updateCell(cell.id, newValue);
+    sample.updateNode(node.id, newValue);
   }
 
   doPointlessComputationsWithBlocking();
 
-  if (!cell.dependantCellId) return null;
+  if (!node.nextId) return null;
 
-  const nextCell = sample.data.get(cell.dependantCellId);
-  if (!nextCell) return null;
+  const nextNode = sample.data.get(node.nextId);
+  if (!nextNode) return null;
 
   /**
-   * Keeping the triggerCellId will allow us to know at all times
-   * which cell triggered the current computation
+   * Keeping the triggerNodeId will allow us to know at all times
+   * which node triggered the current computation
    */
-  return { triggerCellId, cell: nextCell };
+  return { triggerNodeId, node: nextNode };
 }

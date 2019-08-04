@@ -1,8 +1,8 @@
-import { Cell } from '../utils/sample';
+import { Node } from '../utils/sample';
 
 export interface IUnitOfWork {
-  triggerCellId: string;
-  cell: Cell;
+  triggerNodeId: string;
+  node: Node;
 }
 
 type RequestIdleCallbackHandle = any;

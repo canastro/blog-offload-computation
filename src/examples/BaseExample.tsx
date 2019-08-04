@@ -13,7 +13,7 @@ const BaseExample: React.FC<IProps> = ({ onSubmit, title }) => {
   const sampleStore = useSampleStore();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    sampleStore.updateCell('A1', Number(e.target.value));
+    sampleStore.updateNode('A1', Number(e.target.value));
   };
 
   const handleSubmit = (evt: React.FormEvent) => {
@@ -22,7 +22,7 @@ const BaseExample: React.FC<IProps> = ({ onSubmit, title }) => {
     onSubmit();
   };
 
-  const cell = sampleStore.data.get('A1')!;
+  const node = sampleStore.data.get('A1')!;
 
   return (
     <div>
@@ -30,7 +30,7 @@ const BaseExample: React.FC<IProps> = ({ onSubmit, title }) => {
       <form onSubmit={handleSubmit}>
         <label>
           A1 value:
-          <input type="number" value={cell.value || 0} onChange={handleChange} />
+          <input type="number" value={node.value || 0} onChange={handleChange} />
         </label>
 
         <input type="submit" value="Submit" />

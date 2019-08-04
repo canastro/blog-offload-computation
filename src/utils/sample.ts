@@ -1,22 +1,19 @@
 import React from 'react';
 import { action, observable, computed } from 'mobx';
 
-export class Cell {
+export class Node {
   id: string;
 
-  @observable
-  dependantCellId: string | null = null;
-
-  @observable
-  formula: string | null = null;
+  previousId: string | null = null;
+  nextId: string | null = null;
 
   @observable
   value: number | null = null;
 
   constructor(data: any) {
     this.id = data.id;
-    this.dependantCellId = data.dependantCellId;
-    this.formula = data.formula;
+    this.nextId = data.nextId;
+    this.previousId = data.previousId;
     this.value = data.value;
   }
 
@@ -28,7 +25,7 @@ export class Cell {
 
 class Sample {
   @observable
-  data = new Map<string, Cell>();
+  data = new Map<string, Node>();
 
   constructor() {
     this.populate();
@@ -39,27 +36,27 @@ class Sample {
       return Array.from(this.data.values());
   }
 
-  getCellValue(id: string): number | null {
-    const cell = this.data.get(id)!;
-    return cell.value;
+  getNodeValue(id: string): number | null {
+    const node = this.data.get(id)!;
+    return node.value;
   }
 
   @action
-  updateCell(id: string, value: number): void {
-    const cell = this.data.get(id);
+  updateNode(id: string, value: number): void {
+    const node = this.data.get(id);
 
-    if (!cell) return;
-    cell.setValue(value);
+    if (!node) return;
+    node.setValue(value);
   }
 
   @action
   populate() {
     this.data.set(
       'A1',
-      new Cell({
+      new Node({
         id: 'A1',
-        dependantCellId: 'A2',
-        formula: null,
+        nextId: 'A2',
+        previousId: null,
         value: 99
       })
     );
@@ -71,10 +68,10 @@ class Sample {
 
       this.data.set(
         id,
-        new Cell({
+        new Node({
           id,
-          dependantCellId: i !== N_ELEMENTS - 1 ? `A${i + 3}` : null,
-          formula: `=A${i + 1}+10`,
+          nextId: i !== N_ELEMENTS - 1 ? `A${i + 3}` : null,
+          previousId: `A${i + 1}`,
           value: null
         })
       );

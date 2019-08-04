@@ -9,8 +9,8 @@ const IdleCallbackExample: React.FC = () => {
   const sampleStore = useSampleStore();
 
   const handleSubmit = () => {
-    const cell = sampleStore.data.get('A1')!;
-    scheduleWork(cell);
+    const node = sampleStore.data.get('A1')!;
+    scheduleWork(node);
   };
 
   return <BaseExample onSubmit={handleSubmit} title="Idle Callback Example" />;

@@ -1,20 +1,20 @@
 import { performUnitOfWork } from './processor';
 import { IUnitOfWork, RequestIdleCallbackDeadline } from '../common/types';
-import { Cell } from './sample';
+import { Node } from './sample';
 
-let workQueue: Cell[] = [];
+let workQueue: Node[] = [];
 let nextUnitOfWork: IUnitOfWork | null = null;
 
-const ENOUGH_TIME = 1; // Minimum time required to process the next unit
+const ENOUGH_TIME = 2; // Minimum time required to process the next unit
 
 function resetNextUnitOfWork(): void {
-  const cell = workQueue.shift();
-  if (!cell) {
+  const node = workQueue.shift();
+  if (!node) {
     console.log('workQueue is empty');
     return;
   }
 
-  nextUnitOfWork = { triggerCellId: cell.id, cell };
+  nextUnitOfWork = { triggerNodeId: node.id, node };
 }
 
 function workLoop(deadline: any): void {
@@ -40,19 +40,19 @@ function performWork(deadline: RequestIdleCallbackDeadline): void {
   }
 }
 
-export function scheduleWork(cell: Cell): void {
-  console.log('scheduleWork for the cell: ', cell);
+export function scheduleWork(node: Node): void {
+  console.log('scheduleWork for the node: ', node);
   console.time('SCHEDULED-WORK');
 
   /**
    * Verify if there is already a work being
-   * process that was triggered by the same cell
+   * process that was triggered by the same node
    */
-  if (nextUnitOfWork && nextUnitOfWork.triggerCellId === cell.id) {
+  if (nextUnitOfWork && nextUnitOfWork.triggerNodeId === node.id) {
     stopCurrentWork();
   }
 
-  workQueue.push(cell);
+  workQueue.push(node);
   window.requestIdleCallback(performWork);
 }
 

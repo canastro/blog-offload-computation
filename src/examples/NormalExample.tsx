@@ -12,8 +12,8 @@ const IdleCallbackExample: React.FC = () => {
   const handleSubmit = () => {
     console.time('SEQUENTIAL-WORK');
 
-    const cell = sampleStore.data.get('A1')!;
-    let nextUnitOfWork: IUnitOfWork | null = { triggerCellId: cell.id, cell };
+    const node = sampleStore.data.get('A1')!;
+    let nextUnitOfWork: IUnitOfWork | null = { triggerNodeId: node.id, node };
 
     while (nextUnitOfWork) {
       nextUnitOfWork = performUnitOfWork(nextUnitOfWork);
