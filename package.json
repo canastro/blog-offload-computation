@@ -11,7 +11,7 @@
     "@types/react-dom": "16.8.5",
     "@types/react-window": "^1.8.0",
     "classnames": "^2.2.6",
-    "lodash-es": "^4.17.15",
+    "lodash-es": "^4.17.21",
     "mobx": "^5.13.0",
     "mobx-react": "^6.1.1",
     "react": "^16.8.6",
